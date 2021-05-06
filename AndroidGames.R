@@ -10,6 +10,9 @@ pacman::p_load(pacman, dplyr, GGally, ggplot2, psych, ggthemes, igraph, CatEncod
 # Reading the CSV file
 data <-read.csv("android-games.csv", header=TRUE, sep=",")
 
+# Looking at the first 6 of the data set
+head(data)
+
 # Looking at the dimension of the data set.
 dim(data)
 
@@ -28,7 +31,9 @@ mean(is.na(data))
 # Cleaning up null values.
 # Assign it to the clean(cl) -cldata-
 cldata <- na.omit(data)
-mlData <- cldata
+#mlData <- cldata
+
+tail(cldata)
 
 # Checking out for the null variables.
 sum(is.na(cldata))
@@ -70,7 +75,7 @@ ggplot(aes(x = Category), data = cldata)+
 The install levels range increases exponentially."""
 
 #Cleaning the installs column
-cldata = subset(cldata, df$Installs != 'Free')
+cldata = subset(cldata, df$Installs)
 
 #plotting a bar graph for level of installs.
 ggplot(aes(x = Installs), data = cldata )+
@@ -100,6 +105,7 @@ summary(cldata$Rating)
 """The ratings of the apps in the app store follows a left skewed distribution.
 most apps are rated above 4.0 and about half are rated between 4.3 and 5.
 (blue line is the median)"""
+############################################################################
 
 #The larger the size of the application the better rated it is.
 
@@ -112,6 +118,7 @@ dfcat <- dfcat%>%
   summarise(Rating = mean(as.numeric(Rating)))
 
 #plot
+
 ggplot(aes(x = Category, y = Rating), data = dfcat)+
   geom_bar(stat="identity", fill = 'violetred2')+
   coord_flip(ylim = c(3.8,4.5))
@@ -119,6 +126,7 @@ ggplot(aes(x = Category, y = Rating), data = dfcat)+
 
 """Dating applications have the lowest average rating while family applications 
 have the most average rating."""
+############################################################################
 
 #the relationship between price and category when accounting for the type
 ggplot(aes(y = Price, x = Category), data = cldata)+
@@ -136,6 +144,7 @@ cldata %>%  group_by(Category) %>%
   geom_line(group = 1) +  coord_flip() + 
   ggtitle("Average rating across categories") + ylab("Average rating") + guides(fill=FALSE)
 
+#######################################################################################################
 ###Distribution of Ratings Across Categories
 cldata %>% filter(Category!='1.9') %>% 
   ggplot(mapping = aes(x = Rating, fill = Category)) + 
@@ -151,13 +160,6 @@ differences from one another, with all of them being markedly skewed towards the
 What's interesting is that Games have a narrower, higher distribution than the other categories."""
 
 #######################################################################################################
-
-
-
-
-
-
-
 
 #Prediction of Rating
 
