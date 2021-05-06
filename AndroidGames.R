@@ -133,7 +133,31 @@ ggplot(aes(y = Price, x = Category), data = cldata)+
   geom_point(alpha = 0.2, color = 'tomato')+
   coord_flip()+
   ggtitle('Price vs. Category')
+#######################################################################################################
 
+### ---- Content Rating !!!####
+
+cldata %>% group_by(Content.Rating) %>% summarize(count = n()) %>%
+  mutate(Content.Rating = reorder(Content.Rating, count)) %>%
+  ggplot(aes(Content.Rating, count, fill = Content.Rating)) +
+  geom_col()  + coord_flip() + theme_classic()+ theme(legend.position = "none")
+
+#######################################################################################################
+
+### ---- Number of apps by category !!!####
+
+str(cldata$Category)
+ggplot(cldata, aes(x = Category, fill = Category)) +
+  geom_bar() +
+  geom_text(stat='count', aes(label=..count..), vjust=-1, size = 2.3) +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  labs(title="Number of apps by category", y = "") +
+  guides(fill = FALSE)
+
+"""It seems normal that the majority of the applications belong to the categories Family and Game. 
+This is not the case for other types of applications."""
+
+#######################################################################################################
 
 ### Exploring the ratings given to the apps, categorically
 cldata %>%  group_by(Category) %>%  
@@ -143,6 +167,19 @@ cldata %>%  group_by(Category) %>%
   geom_col(aes(fill = Category)) + 
   geom_line(group = 1) +  coord_flip() + 
   ggtitle("Average rating across categories") + ylab("Average rating") + guides(fill=FALSE)
+
+#######################################################################################################
+# --- check what category has the highest rating,review,installs ---#####
+
+ggplot(cldata, aes(x=Rating, y=Category)) +
+  geom_segment(aes(yend=Category), xend=0, colour="grey") +
+  geom_point(size=1, aes(colour=Type)) +
+  scale_colour_brewer(palette="Set1", limits=c("Free", "Paid"), guide=FALSE) +
+  theme_bw() +
+  theme(panel.grid.major.y = element_blank()) +
+  facet_grid(Type ~ ., scales="free_y", space="free_y")
+
+"""In terms of ratings we cannot conclude anything concrete,other than there are more people rating 'Free' apps."""
 
 #######################################################################################################
 ###Distribution of Ratings Across Categories
@@ -161,6 +198,11 @@ What's interesting is that Games have a narrower, higher distribution than the o
 
 #######################################################################################################
 
+#Most popular category
+
+
+
+#######################################################################################################
 #Prediction of Rating
 
 """
