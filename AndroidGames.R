@@ -1,6 +1,5 @@
 # Data Analysis of Google Play Store Data Sets' and Predicting its Ratings.
-# Question: ?
-###########################################################
+##########################################################################
 
 # Importing useful packages
 pacman::p_load(pacman, dplyr, GGally, ggplot2, psych, ggthemes, igraph, CatEncoders, caTools, rpart, rattle,
@@ -197,11 +196,6 @@ differences from one another, with all of them being markedly skewed towards the
 What's interesting is that Games have a narrower, higher distribution than the other categories."""
 
 #######################################################################################################
-
-#Most popular category
-
-
-
 #######################################################################################################
 #Prediction of Rating
 
