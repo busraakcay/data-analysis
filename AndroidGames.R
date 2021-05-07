@@ -57,10 +57,6 @@ glimpse(cldata)
 
 ###########################################################################
 
-"""There are more applications in the Family Category than any other Category 
-followed by the game and tools categories. There are less than 500 applications for 
-most of the categories on the list."""
-
 cldata = subset(cldata)
 #plotting a bar graph for categories
 ggplot(aes(x = Category), data = cldata)+
@@ -69,9 +65,6 @@ ggplot(aes(x = Category), data = cldata)+
   ggtitle("Categories")
 
 ############################################################################
-
-"""The level with the most number of installs is 1000,000+, which is 1-5 million. 
-The install levels range increases exponentially."""
 
 #Cleaning the installs column
 cldata = subset(cldata, df$Installs)
@@ -83,10 +76,6 @@ ggplot(aes(x = Installs), data = cldata )+
   ggtitle('Installs')
 
 ############################################################################
-
-"""The ratings of the apps in the app store follows a left skewed distribution.
-most apps are rated above 4.0 and about half are rated between 4.3 and 5.
-(blue line is the median)"""
 
 #A histogram for the distribution of ratings in the google play dataset
 med = median(subset(cldata$Rating, cldata$Rating >= 0.01))
@@ -100,10 +89,6 @@ ggplot(aes(x = Rating), data = cldata )+
 
 summary(cldata$Rating)
 
-
-"""The ratings of the apps in the app store follows a left skewed distribution.
-most apps are rated above 4.0 and about half are rated between 4.3 and 5.
-(blue line is the median)"""
 ############################################################################
 
 #The larger the size of the application the better rated it is.
@@ -122,9 +107,6 @@ ggplot(aes(x = Category, y = Rating), data = dfcat)+
   geom_bar(stat="identity", fill = 'violetred2')+
   coord_flip(ylim = c(3.8,4.5))
 
-
-"""Dating applications have the lowest average rating while family applications 
-have the most average rating."""
 ############################################################################
 
 #the relationship between price and category when accounting for the type
@@ -132,7 +114,8 @@ ggplot(aes(y = Price, x = Category), data = cldata)+
   geom_point(alpha = 0.2, color = 'tomato')+
   coord_flip()+
   ggtitle('Price vs. Category')
-#######################################################################################################
+
+############################################################################
 
 ### ---- Content Rating !!!####
 
@@ -141,9 +124,9 @@ cldata %>% group_by(Content.Rating) %>% summarize(count = n()) %>%
   ggplot(aes(Content.Rating, count, fill = Content.Rating)) +
   geom_col()  + coord_flip() + theme_classic()+ theme(legend.position = "none")
 
-#######################################################################################################
+############################################################################
 
-### ---- Number of apps by category !!!####
+### Number of apps by category ####
 
 str(cldata$Category)
 ggplot(cldata, aes(x = Category, fill = Category)) +
@@ -153,12 +136,10 @@ ggplot(cldata, aes(x = Category, fill = Category)) +
   labs(title="Number of apps by category", y = "") +
   guides(fill = FALSE)
 
-"""It seems normal that the majority of the applications belong to the categories Family and Game. 
-This is not the case for other types of applications."""
-
-#######################################################################################################
+############################################################################
 
 ### Exploring the ratings given to the apps, categorically
+
 cldata %>%  group_by(Category) %>%  
   filter(!is.na(Rating), Category!='1.9') %>% 
   summarise(meanRating = mean(Rating)) %>% 
@@ -167,8 +148,9 @@ cldata %>%  group_by(Category) %>%
   geom_line(group = 1) +  coord_flip() + 
   ggtitle("Average rating across categories") + ylab("Average rating") + guides(fill=FALSE)
 
-#######################################################################################################
-# --- check what category has the highest rating,review,installs ---#####
+############################################################################
+
+# Check what category has the highest rating,review,installs #####
 
 ggplot(cldata, aes(x=Rating, y=Category)) +
   geom_segment(aes(yend=Category), xend=0, colour="grey") +
@@ -178,9 +160,8 @@ ggplot(cldata, aes(x=Rating, y=Category)) +
   theme(panel.grid.major.y = element_blank()) +
   facet_grid(Type ~ ., scales="free_y", space="free_y")
 
-"""In terms of ratings we cannot conclude anything concrete,other than there are more people rating 'Free' apps."""
+############################################################################
 
-#######################################################################################################
 ###Distribution of Ratings Across Categories
 cldata %>% filter(Category!='1.9') %>% 
   ggplot(mapping = aes(x = Rating, fill = Category)) + 
@@ -188,14 +169,9 @@ cldata %>% filter(Category!='1.9') %>%
   facet_wrap(~Category) + guides(fill = FALSE) + 
   ggtitle("Distribution of ratings across categories") + ylab("Count")
 
-"""From the above plot, we can see that categories generally have a similar mean rating, however, 
-Events, personalization, education and art applications all tend to have a minutely higher rating.
+###############################################################################################
 
-The general distributions of the mean rating across categories do not have any radical 
-differences from one another, with all of them being markedly skewed towards the higher spectrum of ratings. 
-What's interesting is that Games have a narrower, higher distribution than the other categories."""
 
-#######################################################################################################
 #######################################################################################################
 #Prediction of Rating
 
